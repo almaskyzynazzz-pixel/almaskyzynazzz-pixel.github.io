@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Документация — VelvetChoco</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    :root{--ink:#1f1712;--muted:#6e5a4f;--line:#e9ded4}
+    html,body{height:100%}
+    body{margin:0;font-family:Inter,system-ui,Arial,sans-serif;color:var(--ink);background:#fffaf6}
+    header{display:flex;align-items:center;justify-content:space-between;padding:16px 5%;border-bottom:1px solid var(--line);background:#fff}
+    main{width:min(1100px,92%);margin:22px auto 60px}
+    h1{margin:0 0 10px}
+    .grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+    section{background:#fff;border:1px solid var(--line);border-radius:12px;padding:16px}
+    canvas{width:100%;height:420px;border:1px dashed #e0d4c8;border-radius:10px;background:#fffaf6}
+    .btn{background:#6b3a2c;color:#fff;border:0;border-radius:10px;padding:10px 14px;cursor:pointer}
+    ul{margin:6px 0 0}
+    code{background:#fff4e6;padding:2px 6px;border-radius:6px}
+  </style>
+</head>
+<body>
+  <header>
+    <strong>VelvetChoco — Документация</strong>
+    <a href="/index.html" class="btn">← На сайт</a>
+  </header>
+  <main>
+    <section>
+      <h1>Информация по проекту</h1>
+      <p>Технологии: чистые <code>HTML</code>, <code>CSS</code>, <code>JavaScript</code>. Дизайн вдохновлён ментальной картой: ассортимент (плитки, трюфели, наборы), услуги (доставка, мастер‑классы), атмосфера (тёплые тона, аромат, музыка).</p>
+      <ul>
+        <li>Палитра: коричневые тона какао с золотым акцентом</li>
+        <li>Шрифты: Playfair Display (заголовки), Inter (текст)</li>
+        <li>Упаковка и визуальные элементы: крафт, капли шоколада, карамель</li>
+      </ul>
+    </section>
+    <section>
+      <h2>Раскадровка навигации</h2>
+      <p>Кадры отражают путь пользователя: Главная → Магазин → Работы → Услуги → Контакты.</p>
+      <canvas id="storyboard" width="1100" height="420"></canvas>
+      <div style="display:flex;gap:10px;margin-top:10px">
+        <button id="exportPng" class="btn">Экспорт в PNG</button>
+        <a id="downloadLink" class="btn" download="velvetchoco-storyboard.png" style="display:none">Скачать PNG</a>
+      </div>
+    </section>
+    <section>
+      <h2>Карта страниц</h2>
+      <ul>
+        <li>Главная: герой, преимущества, CTA на дегустацию</li>
+        <li>Магазин: фильтры категорий, карточки товаров</li>
+        <li>Наши работы: визуальная галерея</li>
+        <li>Услуги: карточки с описанием</li>
+        <li>Контакты: форма заявки, статус</li>
+      </ul>
+    </section>
+  </main>
+  <script>
+    const c = document.getElementById('storyboard');
+    const ctx = c.getContext('2d');
+    const W = c.width, H = c.height;
+    const frames = [
+      {t:'Главная', d:'Герой + CTA'},
+      {t:'Магазин', d:'Фильтры + карточки'},
+      {t:'Работы', d:'Галерея'},
+      {t:'Услуги', d:'3 карточки'},
+      {t:'Контакты', d:'Форма заявки'}
+    ];
+    const pad = 20, fw = 190, fh = 110, gap = 24;
+    const rows = 2;
+    ctx.clearRect(0,0,W,H);
+    ctx.fillStyle = '#2b221c';
+    ctx.font = '600 16px Inter';
+    frames.forEach((f,i)=>{
+      const row = Math.floor(i/3);
+      const col = i%3;
+      const x = pad + col*(fw+gap);
+      const y = pad + row*(fh+gap);
+      ctx.fillStyle = '#ffffff';
+      ctx.strokeStyle = '#e9ded4';
+      ctx.lineWidth = 2;
+      roundRect(ctx,x,y,fw,fh,12,true,true);
+      ctx.fillStyle = '#6b3a2c';
+      ctx.fillRect(x, y+40, fw, 8);
+      ctx.fillStyle = '#2b221c';
+      ctx.fillText(f.t, x+12, y+24);
+      ctx.fillStyle = '#6e5a4f';
+      ctx.fillText(f.d, x+12, y+70);
+      // arrows
+      if (i < frames.length-1) drawArrow(ctx, x+fw, y+fh/2, x+fw+gap-8, y+fh/2);
+    });
+    function roundRect(ctx, x, y, w, h, r, fill, stroke){
+      if (typeof r === 'number') r={tl:r,tr:r,br:r,bl:r};
+      ctx.beginPath();
+      ctx.moveTo(x+r.tl,y);
+      ctx.lineTo(x+w-r.tr,y);
+      ctx.quadraticCurveTo(x+w,y,x+w,y+r.tr);
+      ctx.lineTo(x+w,y+h-r.br);
+      ctx.quadraticCurveTo(x+w,y+h,x+w-r.br,y+h);
+      ctx.lineTo(x+r.bl,y+h);
+      ctx.quadraticCurveTo(x,y+h,x,y+h-r.bl);
+      ctx.lineTo(x,y+r.tl);
+      ctx.quadraticCurveTo(x,y,x+r.tl,y);
+      ctx.closePath();
+      if (fill) ctx.fill();
+      if (stroke) ctx.stroke();
+    }
+    function drawArrow(ctx,x1,y1,x2,y2){
+      ctx.strokeStyle = '#d7c7b6';
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.moveTo(x1,y1); ctx.lineTo(x2,y2); ctx.stroke();
+      const angle = Math.atan2(y2-y1, x2-x1);
+      const size = 6;
+      ctx.beginPath();
+      ctx.moveTo(x2,y2);
+      ctx.lineTo(x2-size*Math.cos(angle-0.5), y2-size*Math.sin(angle-0.5));
+      ctx.lineTo(x2-size*Math.cos(angle+0.5), y2-size*Math.sin(angle+0.5));
+      ctx.closePath(); ctx.fillStyle = '#d7c7b6'; ctx.fill();
+    }
+    document.getElementById('exportPng').addEventListener('click',()=>{
+      const url = c.toDataURL('image/png');
+      const a = document.getElementById('downloadLink');
+      a.href = url; a.style.display='inline-flex'; a.click();
+    });
+  </script>
+</body>
+</html>
+
+
