@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>VelvetChoco v2 — Главная</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/v2/styles.css">
+  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+</head>
+<body>
+  <header class="hdr">
+    <a href="/v2/index.html" class="brand">VelvetChoco</a>
+    <nav class="menu">
+      <a href="/v2/shop.html">Магазин</a>
+      <a href="/v2/works.html">Работы</a>
+      <a href="/v2/services.html">Услуги</a>
+      <a href="/v2/contact.html" class="btn">Заказать</a>
+    </nav>
+    <button class="burger" aria-label="Меню">☰</button>
+  </header>
+
+  <main>
+    <section class="hero2">
+      <canvas id="noise" class="noise" aria-hidden="true"></canvas>
+      <div class="inside">
+        <h1><span>Авторский шоколад</span> с характером</h1>
+        <p>Новая коллекция Velvet — карамель, фундук и кофе. Эстетика, вкус, настроение.</p>
+        <div class="cta">
+          <a class="btn" href="/v2/shop.html">Открыть магазин</a>
+          <a class="link" href="/v2/works.html">Смотреть работы →</a>
+        </div>
+      </div>
+      <div class="cards3">
+        <article class="c floating"><img src="https://images.unsplash.com/photo-1541782814454-bcdb7ca2d766?q=80&w=800&auto=format&fit=crop" alt="Плитки"></article>
+        <article class="c floating d2"><img src="https://images.unsplash.com/photo-1519681393784-d120267933ba?q=80&w=800&auto=format&fit=crop" alt="Трюфели"></article>
+        <article class="c floating d3"><img src="https://images.unsplash.com/photo-1519869325930-281384150729?q=80&w=800&auto=format&fit=crop" alt="Наборы"></article>
+      </div>
+    </section>
+
+    <section class="features container">
+      <div class="f">
+        <h3>Натурально</h3>
+        <p>Только какао‑масса и масло, без пальмовых добавок.</p>
+      </div>
+      <div class="f">
+        <h3>Ручная работа</h3>
+        <p>Темперирование и декор выполняем сами.</p>
+      </div>
+      <div class="f">
+        <h3>Готово к подарку</h3>
+        <p>Крафтовая упаковка и открытка по желанию.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="ftr">
+    <div class="container">
+      <span>© <span id="year"></span> VelvetChoco</span>
+      <nav>
+        <a href="/index.html">Версия v1</a>
+        <a href="/docs/index.html">Документация</a>
+      </nav>
+    </div>
+  </footer>
+
+  <script src="/v2/scripts.js" defer></script>
+</body>
+</html>
+
+
