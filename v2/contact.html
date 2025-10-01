@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>VelvetChoco v2 — Контакты</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/v2/styles.css">
+</head>
+<body>
+  <header class="hdr">
+    <a href="/v2/index.html" class="brand">VelvetChoco</a>
+    <nav class="menu">
+      <a href="/v2/shop.html">Магазин</a>
+      <a href="/v2/works.html">Работы</a>
+      <a href="/v2/services.html">Услуги</a>
+      <a aria-current="page" class="btn">Заказать</a>
+    </nav>
+    <button class="burger" aria-label="Меню">☰</button>
+  </header>
+
+  <main class="container" style="padding:30px 0 60px">
+    <h1 style="margin:0 0 16px">Оставить заявку</h1>
+    <form id="f" style="display:grid;grid-template-columns:repeat(2,1fr);gap:12px;background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.02));border:1px solid rgba(255,255,255,.08);padding:18px;border-radius:14px">
+      <label>Имя<input name="name" required style="width:100%;padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,.12);background:rgba(0,0,0,.15);color:#fff"></label>
+      <label>Телефон<input name="tel" required style="width:100%;padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,.12);background:rgba(0,0,0,.15);color:#fff"></label>
+      <label style="grid-column:1/-1">Комментарий<textarea name="msg" rows="3" style="width:100%;padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,.12);background:rgba(0,0,0,.15);color:#fff"></textarea></label>
+      <button class="btn" type="submit">Отправить</button>
+      <p id="note" style="margin:8px 0 0;color:var(--brand)"></p>
+    </form>
+  </main>
+
+  <script>
+    const form = document.getElementById('f');
+    const note = document.getElementById('note');
+    form.addEventListener('submit', e=>{
+      e.preventDefault();
+      note.textContent = 'Спасибо! Мы свяжемся с вами.';
+      form.reset();
+    });
+  </script>
+  <script src="/v2/scripts.js" defer></script>
+</body>
+</html>
+
+

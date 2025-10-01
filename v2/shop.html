@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>VelvetChoco v2 — Магазин</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/v2/styles.css">
+</head>
+<body>
+  <header class="hdr">
+    <a href="/v2/index.html" class="brand">VelvetChoco</a>
+    <nav class="menu">
+      <a aria-current="page">Магазин</a>
+      <a href="/v2/works.html">Работы</a>
+      <a href="/v2/services.html">Услуги</a>
+      <a href="/v2/contact.html" class="btn">Заказать</a>
+    </nav>
+    <button class="burger" aria-label="Меню">☰</button>
+  </header>
+
+  <main class="container" style="padding:30px 0 50px">
+    <h1 style="margin:0 0 12px">Магазин</h1>
+    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px">
+      <button class="chip" data-f="all">Все</button>
+      <button class="chip" data-f="bars">Плитки</button>
+      <button class="chip" data-f="truffles">Трюфели</button>
+      <button class="chip" data-f="sets">Наборы</button>
+    </div>
+    <div class="grid" id="grid"></div>
+  </main>
+
+  <script>
+    const style = document.createElement('style');
+    style.textContent = `.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+      .card{background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.02));border:1px solid rgba(255,255,255,.08);border-radius:14px;overflow:hidden}
+      .card img{width:100%;height:200px;object-fit:cover}
+      .card .b{padding:12px;display:flex;justify-content:space-between;align-items:center}
+      .chip{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);color:#efe7e1;border-radius:999px;padding:8px 12px}
+      @media(max-width:760px){.grid{grid-template-columns:1fr}}`;
+    document.head.appendChild(style);
+    const PRODUCTS = [
+      {id:'b1',t:'bars',n:'Плитка 72%',p:2200,i:'https://images.unsplash.com/photo-1623227772811-2c788a9e9f6e?q=80&w=1200&auto=format&fit=crop'},
+      {id:'b2',t:'bars',n:'Плитка карамель',p:1900,i:'https://images.unsplash.com/photo-1542332213-9b6f1b4c1c86?q=80&w=1200&auto=format&fit=crop'},
+      {id:'t1',t:'truffles',n:'Трюфели классика',p:2600,i:'https://images.unsplash.com/photo-1542442828-287225c294d6?q=80&w=1200&auto=format&fit=crop'},
+      {id:'s1',t:'sets',n:'Набор Classic',p:5900,i:'https://images.unsplash.com/photo-1511381939415-c1c76ac76c53?q=80&w=1200&auto=format&fit=crop'}
+    ];
+    const grid = document.getElementById('grid');
+    function render(f='all'){
+      grid.innerHTML='';
+      PRODUCTS.filter(x=>f==='all'||x.t===f).forEach(p=>{
+        const el = document.createElement('article');
+        el.className='card';
+        el.innerHTML = `<img src="${p.i}" alt="${p.n}"><div class="b"><strong>${p.n}</strong><span>${p.p.toLocaleString('ru-RU')} ₸</span></div>`;
+        grid.appendChild(el);
+      });
+    }
+    render();
+    document.querySelectorAll('.chip').forEach(b=>b.addEventListener('click',()=>render(b.dataset.f)));
+  </script>
+  <script src="/v2/scripts.js" defer></script>
+</body>
+</html>
+
+

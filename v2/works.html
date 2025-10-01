@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>VelvetChoco v2 — Работы</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/v2/styles.css">
+</head>
+<body>
+  <header class="hdr">
+    <a href="/v2/index.html" class="brand">VelvetChoco</a>
+    <nav class="menu">
+      <a href="/v2/shop.html">Магазин</a>
+      <a aria-current="page">Работы</a>
+      <a href="/v2/services.html">Услуги</a>
+      <a href="/v2/contact.html" class="btn">Заказать</a>
+    </nav>
+    <button class="burger" aria-label="Меню">☰</button>
+  </header>
+
+  <main class="container" style="padding:30px 0 60px">
+    <h1 style="margin:0 0 16px">Наши работы</h1>
+    <div id="g" style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px"></div>
+  </main>
+
+  <script>
+    const G = document.getElementById('g');
+    const pics = [
+      'https://images.unsplash.com/photo-1519869325930-281384150729?q=80&w=1200&auto=format&fit=crop',
+      'https://images.unsplash.com/photo-1519681393784-d120267933ba?q=80&w=1200&auto=format&fit=crop',
+      'https://images.unsplash.com/photo-1543525324-2eebf532048f?q=80&w=1200&auto=format&fit=crop',
+      'https://images.unsplash.com/photo-1511379938547-c1f69419868d?q=80&w=1200&auto=format&fit=crop',
+      'https://images.unsplash.com/photo-1610621087335-5a9c1a4f62e7?q=80&w=1200&auto=format&fit=crop',
+      'https://images.unsplash.com/photo-1549396535-c6c9a1a8b9aa?q=80&w=1200&auto=format&fit=crop',
+      'https://images.unsplash.com/photo-1582571352032-448f7928eca9?q=80&w=1200&auto=format&fit=crop',
+      'https://images.unsplash.com/photo-1526318472351-c75fcf070305?q=80&w=1200&auto=format&fit=crop'
+    ];
+    pics.forEach(src=>{
+      const f=document.createElement('figure');
+      f.style.margin='0';
+      f.style.borderRadius='12px';
+      f.style.overflow='hidden';
+      f.style.border='1px solid rgba(255,255,255,.08)';
+      f.innerHTML = `<img style="width:100%;height:180px;object-fit:cover;display:block" src="${src}" alt="Работа">`;
+      G.appendChild(f);
+    });
+  </script>
+  <script src="/v2/scripts.js" defer></script>
+</body>
+</html>
+
+
