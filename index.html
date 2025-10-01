@@ -72,8 +72,12 @@
           <h2>Наши работы</h2>
           <p>Персональные подарочные наборы, корпоративные боксы и сезонные коллекции.</p>
         </header>
-        <div class="gallery" id="worksGallery" aria-label="Галерея работ">
-          <!-- Карточки добавит JS -->
+        <div class="slider" id="worksSlider" aria-label="Слайд-шоу работ">
+          <button class="slider__btn slider__btn--prev" aria-label="Предыдущий">‹</button>
+          <div class="slider__viewport">
+            <div class="slider__track" id="worksTrack"><!-- слайды рендерит JS --></div>
+          </div>
+          <button class="slider__btn slider__btn--next" aria-label="Следующий">›</button>
         </div>
       </div>
     </section>
