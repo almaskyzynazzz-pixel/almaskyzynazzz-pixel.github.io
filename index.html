@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>VelvetChoco — Шоколадная лавка</title>
+  <meta name="description" content="VelvetChoco — авторский шоколад, наборы, мастер‑классы и подарочные решения.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+</head>
+<body>
+  <header class="site-header">
+    <a class="logo" href="#hero" aria-label="VelvetChoco">
+      <img src="/assets/logo.svg" alt="VelvetChoco">
+    </a>
+    <nav class="nav" aria-label="Основная навигация">
+      <button class="nav__toggle" aria-expanded="false" aria-controls="navMenu">☰</button>
+      <ul id="navMenu" class="nav__list">
+        <li><a href="#hero">Главная</a></li>
+        <li><a href="#assortment">Магазин</a></li>
+        <li><a href="#works">Наши работы</a></li>
+        <li><a href="#services">Услуги</a></li>
+        <li><a href="#about">О нас</a></li>
+        <li><a href="#contacts" class="btn btn--sm">Заказ</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <section id="hero" class="hero section">
+      <div class="hero__bg" aria-hidden="true"></div>
+      <div class="container hero__content">
+        <h1 class="display">Шоколадная лавка VelvetChoco</h1>
+        <p class="lead">Авторские конфеты, наборы и шоколад с орехами, карамелью и фруктами. Праздничная упаковка и быстрая доставка.</p>
+        <div class="cta">
+          <a class="btn" href="#assortment">Смотреть ассортимент</a>
+          <button class="btn btn--ghost" data-open-modal="#tasteModal">Записаться на дегустацию</button>
+        </div>
+        <ul class="badges">
+          <li>натуральные ингредиенты</li>
+          <li>ручная работа</li>
+          <li>подарочная упаковка</li>
+        </ul>
+      </div>
+      <div class="drip" aria-hidden="true"></div>
+    </section>
+
+    <section id="assortment" class="section section--alt">
+      <div class="container">
+        <header class="section__header">
+          <h2>Ассортимент</h2>
+          <p>Горький, молочный и белый шоколад. Начинки: орехи, карамель, ликёр, фрукты. Наборы и плитки.</p>
+          <div class="filters" role="tablist" aria-label="Фильтр ассортимента">
+            <button class="chip is-active" data-filter="all" role="tab" aria-selected="true">Все</button>
+            <button class="chip" data-filter="bars" role="tab">Плитки</button>
+            <button class="chip" data-filter="truffles" role="tab">Трюфели</button>
+            <button class="chip" data-filter="sets" role="tab">Наборы</button>
+          </div>
+        </header>
+        <div class="grid products" id="productGrid">
+          <!-- Товары генерируются JS -->
+        </div>
+      </div>
+    </section>
+
+    <section id="works" class="section">
+      <div class="container">
+        <header class="section__header">
+          <h2>Наши работы</h2>
+          <p>Персональные подарочные наборы, корпоративные боксы и сезонные коллекции.</p>
+        </header>
+        <div class="gallery" id="worksGallery" aria-label="Галерея работ">
+          <!-- Карточки добавит JS -->
+        </div>
+      </div>
+    </section>
+
+    <section id="services" class="section section--alt">
+      <div class="container">
+        <header class="section__header">
+          <h2>Услуги и впечатления</h2>
+          <p>Онлайн и экспресс‑доставка, мастер‑классы по шоколаду, сувенирная продукция.</p>
+        </header>
+        <div class="cards three">
+          <article class="card reveal">
+            <h3>Доставка</h3>
+            <p>Быстрая курьерская доставка по городу и самовывоз из кофейни‑партнёра.</p>
+          </article>
+          <article class="card reveal">
+            <h3>Мастер‑классы</h3>
+            <p>Погрузитесь в мир какао: создайте трюфели и плитки, узнайте секреты темперирования.</p>
+          </article>
+          <article class="card reveal">
+            <h3>Сувениры</h3>
+            <p>Мини‑плитки и наборы с фирменной упаковкой для мероприятий и корпоративных подарков.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="about" class="section">
+      <div class="container about">
+        <div class="about__text">
+          <header class="section__header">
+            <h2>Атмосфера VelvetChoco</h2>
+            <p>Тёплые древесные тона, аромат какао‑бобов, музыка в стиле lo‑fi и джаз. Мы верим в спокойствие и вкус.</p>
+          </header>
+          <ul class="list">
+            <li>логотип: капля шоколада, коричневый с золотым акцентом</li>
+            <li>упаковка: крафт‑бумага, ленты, коробки и подарочные наборы</li>
+            <li>коллаборации: кофейни, флористы, пекарни</li>
+          </ul>
+        </div>
+        <div class="about__image">
+          <img src="https://images.unsplash.com/photo-1541782814454-bcdb7ca2d766?q=80&w=1200&auto=format&fit=crop" alt="Шоколад и орехи">
+        </div>
+      </div>
+    </section>
+
+    <section id="contacts" class="section section--cta">
+      <div class="container cta__wrap">
+        <h2>Сладкий поводо́к для праздника</h2>
+        <p>Расскажите о событии — подберём вкусы и упаковку.</p>
+        <form id="orderForm" class="form" novalidate>
+          <label>
+            <span>Имя</span>
+            <input name="name" type="text" placeholder="Анель" required>
+          </label>
+          <label>
+            <span>Телефон</span>
+            <input name="phone" type="tel" placeholder="+7 ___ ___‑__‑__" required>
+          </label>
+          <label class="wide">
+            <span>Комментарий</span>
+            <textarea name="msg" rows="3" placeholder="Хочу набор на 8 марта…"></textarea>
+          </label>
+          <button class="btn" type="submit">Отправить заявку</button>
+          <p class="form__note" role="status" aria-live="polite"></p>
+        </form>
+      </div>
+      <div class="drip drip--footer" aria-hidden="true"></div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer__grid">
+      <div>
+        <img class="footer__logo" src="/assets/logo.svg" alt="VelvetChoco">
+        <p>© <span id="year"></span> VelvetChoco. Ручной шоколад.</p>
+      </div>
+      <ul class="footer__nav">
+        <li><a href="#hero">Главная</a></li>
+        <li><a href="#assortment">Магазин</a></li>
+        <li><a href="#services">Услуги</a></li>
+        <li><a href="/docs/index.html">Документация</a></li>
+      </ul>
+    </div>
+  </footer>
+
+  <div class="modal" id="tasteModal" aria-hidden="true" role="dialog" aria-label="Запись на дегустацию">
+    <div class="modal__backdrop" data-close-modal></div>
+    <div class="modal__dialog">
+      <button class="modal__close" aria-label="Закрыть" data-close-modal>×</button>
+      <h3>Дегустация VelvetChoco</h3>
+      <p>Мы свяжемся и предложим ближайшие даты. Укажите контакт:</p>
+      <form class="form form--compact" id="tasteForm">
+        <input name="contact" type="text" placeholder="Telegram @nick или телефон" required>
+        <button class="btn" type="submit">Отправить</button>
+      </form>
+      <p class="form__note" id="tasteNote" role="status" aria-live="polite"></p>
+    </div>
+  </div>
+
+  <script src="/scripts.js" defer></script>
+</body>
+</html>
+
+
