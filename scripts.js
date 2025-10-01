@@ -73,7 +73,7 @@ filterButtons.forEach(btn => btn.addEventListener('click', () => {
   });
 }));
 
-// Works gallery demo
+// Works gallery/slider dataset
 const WORKS = [
   'https://images.unsplash.com/photo-1519869325930-281384150729?q=80&w=1200&auto=format&fit=crop',
   'https://images.unsplash.com/photo-1519681393784-d120267933ba?q=80&w=1200&auto=format&fit=crop',
@@ -84,14 +84,31 @@ const WORKS = [
   'https://images.unsplash.com/photo-1582571352032-448f7928eca9?q=80&w=1200&auto=format&fit=crop',
   'https://images.unsplash.com/photo-1526318472351-c75fcf070305?q=80&w=1200&auto=format&fit=crop'
 ];
-const gallery = $('#worksGallery');
-if (gallery) {
-  WORKS.forEach(src => {
-    const t = document.createElement('figure');
-    t.className = 'tile reveal';
-    t.innerHTML = `<img src="${src}" alt="Работа VelvetChoco">`;
-    gallery.appendChild(t);
-  });
+// Slider rendering
+const slider = $('#worksSlider');
+if (slider) {
+  const track = $('#worksTrack');
+  const buildSlide = (src, cls='') => `<figure class="slide ${cls}"><img loading="lazy" src="${src}" alt="Работа VelvetChoco"></figure>`;
+  // initial with 3 visible (prev, current, next)
+  let index = 0;
+  function render(){
+    const prev = WORKS[(index - 1 + WORKS.length) % WORKS.length];
+    const cur = WORKS[index % WORKS.length];
+    const next = WORKS[(index + 1) % WORKS.length];
+    track.innerHTML = buildSlide(prev,'slide--side') + buildSlide(cur) + buildSlide(next,'slide--side');
+    track.style.transform = 'translateX(0)';
+  }
+  function move(dir){
+    // animate track to left/right then re-render
+    track.style.transform = `translateX(${dir>0 ? '-33%' : '33%'})`;
+    setTimeout(()=>{ index = (index + (dir>0?1:-1) + WORKS.length) % WORKS.length; render(); }, 250);
+  }
+  render();
+  $('.slider__btn--next', slider)?.addEventListener('click', ()=>move(1));
+  $('.slider__btn--prev', slider)?.addEventListener('click', ()=>move(-1));
+  let timer = setInterval(()=>move(1), 3500);
+  slider.addEventListener('mouseenter', ()=>clearInterval(timer));
+  slider.addEventListener('mouseleave', ()=>{ timer = setInterval(()=>move(1), 3500); });
 }
 
 // Scroll reveal animations
