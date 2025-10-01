@@ -39,12 +39,19 @@
     </section>
     <section>
       <h2>Раскадровка навигации</h2>
-      <p>Кадры отражают путь пользователя: Главная → Магазин → Работы → Услуги → Контакты.</p>
-      <canvas id="storyboard" width="1100" height="420"></canvas>
-      <div style="display:flex;gap:10px;margin-top:10px">
+      <p>Полный пользовательский поток из 12 кадров: от входа на сайт до отправки заявки.</p>
+      <div style="display:flex;gap:10px;align-items:center;margin:8px 0 12px">
+        <label>Колонки
+          <select id="colsSelect" style="margin-left:6px;padding:6px 8px;border:1px solid #e9ded4;border-radius:8px">
+            <option value="3" selected>3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+          </select>
+        </label>
         <button id="exportPng" class="btn">Экспорт в PNG</button>
         <a id="downloadLink" class="btn" download="velvetchoco-storyboard.png" style="display:none">Скачать PNG</a>
       </div>
+      <canvas id="storyboard" width="1100" height="420"></canvas>
     </section>
     <section>
       <h2>Карта страниц</h2>
@@ -60,37 +67,135 @@
   <script>
     const c = document.getElementById('storyboard');
     const ctx = c.getContext('2d');
-    const W = c.width, H = c.height;
+    const pad = 20, fw = 200, fh = 120, gap = 24;
     const frames = [
-      {t:'Главная', d:'Герой + CTA'},
-      {t:'Магазин', d:'Фильтры + карточки'},
-      {t:'Работы', d:'Галерея'},
-      {t:'Услуги', d:'3 карточки'},
-      {t:'Контакты', d:'Форма заявки'}
+      {t:'Вход', d:'Главная — герой и CTA', kind:'hero'},
+      {t:'Скролл', d:'Преимущества/бейджи', kind:'list'},
+      {t:'Магазин', d:'Открыт каталог', kind:'shop'},
+      {t:'Фильтр', d:'Категория Плитки', kind:'filter'},
+      {t:'Товар', d:'Просмотр карточки', kind:'product'},
+      {t:'Корзина', d:'Добавление в корзину', kind:'cart'},
+      {t:'Работы', d:'Галерея сеткой', kind:'gallery'},
+      {t:'Услуги', d:'3 карточки', kind:'services'},
+      {t:'О нас', d:'Фото + текст', kind:'about'},
+      {t:'Контакты', d:'Форма заявки', kind:'form'},
+      {t:'Отправлено', d:'Статус успеха', kind:'success'},
+      {t:'Возврат', d:'Наверх / повторный путь', kind:'nav'}
     ];
-    const pad = 20, fw = 190, fh = 110, gap = 24;
-    const rows = 2;
-    ctx.clearRect(0,0,W,H);
-    ctx.fillStyle = '#2b221c';
-    ctx.font = '600 16px Inter';
-    frames.forEach((f,i)=>{
-      const row = Math.floor(i/3);
-      const col = i%3;
-      const x = pad + col*(fw+gap);
-      const y = pad + row*(fh+gap);
-      ctx.fillStyle = '#ffffff';
-      ctx.strokeStyle = '#e9ded4';
-      ctx.lineWidth = 2;
-      roundRect(ctx,x,y,fw,fh,12,true,true);
-      ctx.fillStyle = '#6b3a2c';
-      ctx.fillRect(x, y+40, fw, 8);
-      ctx.fillStyle = '#2b221c';
-      ctx.fillText(f.t, x+12, y+24);
-      ctx.fillStyle = '#6e5a4f';
-      ctx.fillText(f.d, x+12, y+70);
-      // arrows
-      if (i < frames.length-1) drawArrow(ctx, x+fw, y+fh/2, x+fw+gap-8, y+fh/2);
-    });
+
+    const colsSelect = document.getElementById('colsSelect');
+    colsSelect.addEventListener('change', draw);
+
+    function sizeCanvas(cols){
+      const rows = Math.ceil(frames.length / cols);
+      c.width = 1100;
+      c.height = pad*2 + rows*fh + (rows-1)*gap;
+    }
+
+    function draw(){
+      const cols = parseInt(colsSelect.value,10) || 3;
+      sizeCanvas(cols);
+      const W = c.width; const H = c.height;
+      ctx.clearRect(0,0,W,H);
+      ctx.textBaseline = 'middle';
+      ctx.font = '600 15px Inter';
+      frames.forEach((f,i)=>{
+        const row = Math.floor(i/cols);
+        const col = i%cols;
+        const x = pad + col*(fw+gap);
+        const y = pad + row*(fh+gap);
+        // card
+        ctx.fillStyle = '#ffffff';
+        ctx.strokeStyle = '#e9ded4';
+        ctx.lineWidth = 2;
+        roundRect(ctx,x,y,fw,fh,12,true,true);
+        // header bar
+        ctx.fillStyle = '#6b3a2c';
+        ctx.fillRect(x, y+28, fw, 6);
+        // title
+        ctx.fillStyle = '#2b221c';
+        ctx.fillText(f.t, x+12, y+14);
+        // thumbnail/wireframe depending on kind
+        drawInside(f.kind, x, y);
+        // caption
+        ctx.fillStyle = '#6e5a4f';
+        ctx.fillText(f.d, x+12, y+fh-16);
+        // arrows
+        if (i < frames.length-1){
+          const nx = (i+1)%cols === 0 ? x+fw/2 : x+fw;
+          const ny = (i+1)%cols === 0 ? y+fh : y+fh/2;
+          const tx = (i+1)%cols === 0 ? x+fw/2 : x+fw+gap-8;
+          const ty = (i+1)%cols === 0 ? y+fh+gap-8 : y+fh/2;
+          drawArrow(ctx, nx, ny, tx, ty);
+        }
+      });
+    }
+
+    function drawInside(kind, x, y){
+      const m = 12; // inner margin
+      ctx.save();
+      switch(kind){
+        case 'hero':
+          ctx.fillStyle = '#f3e7db';
+          roundRect(ctx, x+m, y+m+20, fw-2*m, 44, 8, true, false);
+          ctx.fillStyle = '#caa86a'; ctx.fillRect(x+m, y+m+70, 90, 16);
+          ctx.fillStyle = '#a26a3f'; ctx.fillRect(x+m+100, y+m+70, 120, 16);
+          break;
+        case 'list':
+          ctx.fillStyle = '#f0e7de';
+          for(let i=0;i<3;i++){ ctx.fillRect(x+m, y+m+24+i*18, fw-2*m, 10); }
+          break;
+        case 'shop':
+          ctx.strokeStyle = '#d9cbbd';
+          for(let r=0;r<2;r++){
+            for(let c2=0;c2<3;c2++){
+              ctx.strokeRect(x+m+c2*((fw-2*m)/3)+2, y+m+24+r*34, (fw-2*m)/3-6, 28);
+            }
+          }
+          break;
+        case 'filter':
+          ctx.fillStyle = '#fff4e6';
+          for(let i=0;i<4;i++){ ctx.fillRect(x+m+i*54, y+m+24, 48, 16); }
+          break;
+        case 'product':
+          ctx.fillStyle = '#e9ded4'; ctx.fillRect(x+m, y+m+24, 70, 70);
+          ctx.fillStyle = '#d2bfae'; ctx.fillRect(x+m+80, y+m+24, fw-2*m-80, 12);
+          ctx.fillStyle = '#caa86a'; ctx.fillRect(x+m+80, y+m+44, 90, 16);
+          break;
+        case 'cart':
+          ctx.fillStyle = '#d7c7b6'; ctx.fillRect(x+m, y+m+24, fw-2*m, 14);
+          ctx.fillStyle = '#6b3a2c'; ctx.fillRect(x+m, y+m+48, 80, 18);
+          break;
+        case 'gallery':
+          ctx.strokeStyle = '#d9cbbd';
+          for(let r=0;r<2;r++) for(let c2=0;c2<4;c2++) ctx.strokeRect(x+m+c2*((fw-2*m)/4)+2, y+m+24+r*28, (fw-2*m)/4-6, 24);
+          break;
+        case 'services':
+          ctx.strokeStyle = '#d9cbbd';
+          for(let c2=0;c2<3;c2++) ctx.strokeRect(x+m+c2*((fw-2*m)/3)+2, y+m+24, (fw-2*m)/3-6, 40);
+          break;
+        case 'about':
+          ctx.fillStyle = '#e9ded4'; ctx.fillRect(x+m, y+m+24, 70, 60);
+          ctx.fillStyle = '#d2bfae'; ctx.fillRect(x+m+80, y+m+24, fw-2*m-80, 10);
+          ctx.fillRect(x+m+80, y+m+40, fw-2*m-80, 10);
+          break;
+        case 'form':
+          ctx.strokeStyle = '#d9cbbd';
+          for(let i=0;i<3;i++){ ctx.strokeRect(x+m, y+m+22+i*22, fw-2*m, 18); }
+          ctx.fillStyle = '#6b3a2c'; ctx.fillRect(x+m, y+m+92, 100, 18);
+          break;
+        case 'success':
+          ctx.fillStyle = '#d9f2d9'; roundRect(ctx, x+m, y+m+36, fw-2*m, 28, 8, true, false);
+          ctx.fillStyle = '#2b7a2b'; ctx.fillRect(x+m+12, y+m+44, 14, 14);
+          break;
+        case 'nav':
+          ctx.fillStyle = '#caa86a'; ctx.fillRect(x+m, y+m+24, 80, 16);
+          ctx.fillStyle = '#a26a3f'; ctx.fillRect(x+m+90, y+m+24, 100, 16);
+          break;
+      }
+      ctx.restore();
+    }
+
     function roundRect(ctx, x, y, w, h, r, fill, stroke){
       if (typeof r === 'number') r={tl:r,tr:r,br:r,bl:r};
       ctx.beginPath();
@@ -120,11 +225,14 @@
       ctx.lineTo(x2-size*Math.cos(angle+0.5), y2-size*Math.sin(angle+0.5));
       ctx.closePath(); ctx.fillStyle = '#d7c7b6'; ctx.fill();
     }
+
     document.getElementById('exportPng').addEventListener('click',()=>{
       const url = c.toDataURL('image/png');
       const a = document.getElementById('downloadLink');
       a.href = url; a.style.display='inline-flex'; a.click();
     });
+
+    draw();
   </script>
 </body>
 </html>
